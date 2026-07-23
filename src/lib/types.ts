@@ -1,0 +1,63 @@
+import type { PitchKey, TierKey } from "./pricing";
+
+export interface QuizAnswers {
+  reason: string;
+  roofAge: string;
+  material: string;
+  insurance: string;
+  timeline: string;
+}
+
+export type FootprintSource = "measured" | "estimated";
+
+export interface Contact {
+  name: string;
+  phone: string;
+  email: string;
+}
+
+/** GET /api/geocode?address=... */
+export type GeocodeResponse =
+  | { ok: true; lat: number; lng: number; matchedAddress: string }
+  | { ok: false; error: "invalid" | "not_found" | "upstream" };
+
+/** GET /api/footprint?lat=...&lng=... */
+export type FootprintResponse =
+  | {
+      ok: true;
+      found: true;
+      sqft: number;
+      /** Outer ring of the matched building, [lat, lng] pairs, closed or open. */
+      polygon: [number, number][];
+    }
+  | { ok: true; found: false }
+  | { ok: false; error: string };
+
+/** POST /api/lead body. Sent twice: at lead capture, then enriched at quote reveal. */
+export interface LeadPayload {
+  stage: "lead_captured" | "quote_viewed";
+  quiz: QuizAnswers;
+  address: {
+    entered: string;
+    matched: string;
+    lat: number;
+    lng: number;
+  };
+  footprint: {
+    sqft: number;
+    source: FootprintSource;
+    assist?: { heatedSqft: number; stories: number };
+  };
+  contact: Contact;
+  pitch?: PitchKey;
+  quote?: {
+    roofSqft: number;
+    squares: number;
+    pricePerSquare: number;
+    tiers: { tier: TierKey; low: number; high: number }[];
+  };
+  submittedAt: string;
+  page: string;
+}
+
+export type LeadResponse = { ok: boolean; forwarded?: boolean };

@@ -1,0 +1,31 @@
+{
+  "name": "roofing-funnel-template",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev --port 4321",
+    "build": "astro build",
+    "preview": "astro preview",
+    "images": "node tools/process-images.mjs"
+  },
+  "dependencies": {
+    "@astrojs/react": "^4.2.0",
+    "@astrojs/vercel": "^8.1.0",
+    "@fontsource-variable/archivo": "^5.2.5",
+    "@tailwindcss/vite": "^4.1.4",
+    "@turf/area": "^7.2.0",
+    "@turf/boolean-point-in-polygon": "^7.2.0",
+    "@turf/helpers": "^7.2.0",
+    "astro": "^5.7.0",
+    "gsap": "^3.12.7",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "tailwindcss": "^4.1.4"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "sharp": "^0.34.1"
+  }
+}

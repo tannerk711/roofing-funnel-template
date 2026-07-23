@@ -1,0 +1,54 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/site/Header.astro";
+import Footer from "../components/site/Footer.astro";
+import { SITE } from "../config/site";
+---
+
+<Layout
+  title={`You're booked | ${SITE.businessName}`}
+  description={`Your free roof inspection with ${SITE.businessName} is on the calendar. Here's what happens next.`}
+>
+  <Header />
+  <main class="flex min-h-[70svh] items-center bg-paper py-20 md:py-28">
+    <div class="mx-auto w-full max-w-2xl px-4 text-center sm:px-6">
+      <span
+        class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-brand/10 text-brand shadow-(--shadow-card)"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          class="h-10 w-10"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="m5 12.5 5 5L19 7"></path>
+        </svg>
+      </span>
+
+      <h1 class="headline mt-8 text-4xl text-ink sm:text-5xl">You're on the calendar.</h1>
+
+      <p class="mt-5 text-lg text-ink-soft">
+        Here's what happens next. We confirm your appointment by text. Your inspector
+        arrives in a marked truck, spends about 20 minutes on the roof, and you get your
+        exact quote the same day.
+      </p>
+
+      <p class="mt-4 text-ink-soft">
+        Need to change your time? Call
+        <a href={SITE.phoneHref} class="font-bold text-brand hover:text-brand-dark">
+          {SITE.phone}
+        </a>
+        and we'll move it.
+      </p>
+
+      <div class="mt-10">
+        <a href="/" class="btn-ghost">Back to the homepage</a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>

@@ -1,0 +1,188 @@
+---
+import { SITE } from "../../config/site";
+---
+
+<section class="relative flex min-h-[88svh] overflow-hidden bg-sky-deep" data-hero>
+  <!-- Background media (oversized so parallax never reveals edges) -->
+  <div
+    class="absolute inset-x-0 -top-24 -bottom-24"
+    data-hero-media
+    data-parallax-depth="14"
+  >
+    <picture>
+      <source
+        type="image/webp"
+        srcset="/img/hero-768.webp 768w, /img/hero-1280.webp 1280w, /img/hero-1920.webp 1920w"
+        sizes="100vw"
+      />
+      <img
+        src="/img/hero.jpg"
+        width="1600"
+        height="853"
+        alt="Architectural shingle roof on an upscale Atlanta home under a golden-hour sky"
+        class="hero-img absolute inset-0 h-full w-full object-cover"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
+  </div>
+
+  <!-- Warm dark scrim from bottom-left so text always reads -->
+  <div class="hero-scrim absolute inset-0" aria-hidden="true"></div>
+  <!-- Slow-drifting secondary haze layer -->
+  <div class="hero-haze absolute inset-0" aria-hidden="true"></div>
+  <!-- Light sweep -->
+  <div class="hero-sweep absolute" aria-hidden="true"></div>
+
+  <!-- Content -->
+  <div class="relative z-10 mx-auto flex w-full max-w-6xl items-center px-4 py-28 sm:px-6 md:py-32">
+    <div class="max-w-2xl" data-hero-content data-parallax-depth="6" data-reveal-group>
+      <p class="kicker kicker-on-dark" data-reveal>Instant roof estimate</p>
+      <h1 class="headline mt-4 text-4xl text-white sm:text-5xl md:text-6xl" data-reveal>
+        See what your new roof costs. From your address. In about 60 seconds.
+      </h1>
+      <p class="mt-5 max-w-xl text-lg text-white/80" data-reveal>
+        We measure your roof from real satellite imagery and show you an honest price range
+        on the spot. No salesperson on your couch, no waiting days for a callback.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center gap-4" data-reveal>
+        <a href="#quote-tool" class="btn-primary">Get my instant estimate</a>
+        <a
+          href={SITE.phoneHref}
+          class="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-7 py-3.5 font-bold text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+        >
+          Or call {SITE.phone}
+        </a>
+      </div>
+      <ul class="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-white/70" data-reveal>
+        <li>Licensed and insured in Georgia</li>
+        <li aria-hidden="true" class="text-white/40">&bull;</li>
+        <li>Serving {SITE.serviceAreaShort}</li>
+        <li aria-hidden="true" class="text-white/40">&bull;</li>
+        <li>Real satellite measurement, not a guess</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Scroll cue -->
+  <a
+    href="#quote-tool"
+    class="absolute bottom-5 left-1/2 z-10 -translate-x-1/2 p-2 text-white/70 transition-colors hover:text-white"
+    aria-label="Scroll down to the instant estimate tool"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      class="hero-cue-chevron h-6 w-6"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m6 9 6 6 6-6"></path>
+    </svg>
+  </a>
+</section>
+
+<style>
+  /* Ken Burns on the img itself; GSAP scroll parallax targets the wrapper div,
+     and pointer parallax uses style.translate, so nothing fights. */
+  .hero-img {
+    animation: hero-kenburns 28s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  @keyframes hero-kenburns {
+    from {
+      transform: scale(1) translate(0, 0);
+    }
+    to {
+      transform: scale(1.08) translate(2.2%, -1.4%);
+    }
+  }
+
+  .hero-scrim {
+    background: linear-gradient(
+      to top right,
+      rgb(28 25 23 / 0.82) 0%,
+      rgb(28 25 23 / 0.5) 34%,
+      rgb(28 25 23 / 0) 62%
+    );
+  }
+
+  .hero-haze {
+    background: linear-gradient(
+      115deg,
+      rgb(28 25 23 / 0.35) 0%,
+      rgb(28 25 23 / 0) 45%,
+      rgb(28 25 23 / 0.18) 100%
+    );
+    animation: hero-haze-drift 60s ease-in-out infinite alternate;
+  }
+  @keyframes hero-haze-drift {
+    from {
+      opacity: 0.5;
+      transform: translateX(-2%);
+    }
+    to {
+      opacity: 0.9;
+      transform: translateX(2%);
+    }
+  }
+
+  .hero-sweep {
+    top: -20%;
+    bottom: -20%;
+    left: 0;
+    width: 30%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(255 255 255 / 0.85),
+      transparent
+    );
+    mix-blend-mode: screen;
+    opacity: 0;
+    pointer-events: none;
+    animation: hero-sweep 9s ease-in-out infinite;
+  }
+  @keyframes hero-sweep {
+    0% {
+      transform: translateX(-80vw) skewX(-18deg);
+      opacity: 0;
+    }
+    6% {
+      opacity: 0.14;
+    }
+    24% {
+      transform: translateX(120vw) skewX(-18deg);
+      opacity: 0.14;
+    }
+    30% {
+      transform: translateX(120vw) skewX(-18deg);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(120vw) skewX(-18deg);
+      opacity: 0;
+    }
+  }
+
+  /* Brand kicker lightened for legibility over the dark photo */
+  .kicker-on-dark {
+    color: color-mix(in srgb, var(--color-brand) 45%, white);
+  }
+
+  .hero-cue-chevron {
+    animation: hero-cue-bob 2.2s ease-in-out infinite;
+  }
+  @keyframes hero-cue-bob {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(6px);
+    }
+  }
+</style>

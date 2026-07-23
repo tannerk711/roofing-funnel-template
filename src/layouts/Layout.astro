@@ -1,0 +1,52 @@
+---
+import "../styles/global.css";
+import { SITE } from "../config/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  preloadHero?: boolean;
+}
+
+const {
+  title = `Instant Roof Estimate | ${SITE.businessName}`,
+  description = `Get a real roof replacement estimate for your home in about 60 seconds. ${SITE.businessName} measures your roof from satellite imagery and gives you an honest price range. Serving ${SITE.serviceAreaShort}.`,
+  preloadHero = false,
+} = Astro.props;
+
+const brandVars = `--brand-primary: ${SITE.brand.primary}; --brand-dark: ${SITE.brand.primaryDark};`;
+// Social crawlers need an absolute og:image URL. Astro.site comes from
+// astro.config.mjs (swapped to the real domain at rebrand).
+const ogImage = new URL("/img/hero.jpg", Astro.site ?? "https://apexroofingco.example.com").href;
+---
+
+<!doctype html>
+<html lang="en" style={brandVars}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={ogImage} />
+    {
+      preloadHero && (
+        <link
+          rel="preload"
+          as="image"
+          href="/img/hero-1280.webp"
+          imagesrcset="/img/hero-768.webp 768w, /img/hero-1280.webp 1280w, /img/hero-1920.webp 1920w"
+          imagesizes="100vw"
+          fetchpriority="high"
+        />
+      )
+    }
+  </head>
+  <body class="min-h-dvh bg-paper text-ink">
+    <slot />
+    <div class="grain-overlay" aria-hidden="true"></div>
+  </body>
+</html>

@@ -1,0 +1,124 @@
+---
+import { SITE } from "../../config/site";
+
+const values = [
+  {
+    title: "Manufacturer-certified installers",
+    body: "Certified by the shingle manufacturers we install, which is what keeps your product warranty fully valid.",
+    icon: "badge",
+  },
+  {
+    title: "Workmanship warranty in writing",
+    body: "Our labor warranty is on paper, not a handshake. You keep a signed copy before we set the first ladder.",
+    icon: "document",
+  },
+  {
+    title: "Local crews who respect the property",
+    body: "Tarped landscaping, protected driveway, and a magnetic sweep for nails before the trucks leave.",
+    icon: "home",
+  },
+  {
+    title: "You see the same price math we see",
+    body: "Squares, pitch, waste, and per-square cost. The same numbers our estimator works from, shown to you.",
+    icon: "math",
+  },
+] as const;
+---
+
+<section class="overflow-hidden bg-paper-deep py-20 md:py-28">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <div class="max-w-2xl" data-reveal-group>
+      <p class="kicker" data-reveal>Why homeowners pick us</p>
+      <h2 class="headline mt-3 text-3xl text-ink sm:text-4xl md:text-5xl" data-reveal>
+        Straight answers. Clean installs. Local crews.
+      </h2>
+    </div>
+
+    <div class="mt-12 grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <!-- Overlapping photo collage -->
+      <div class="relative mx-auto mb-10 w-full max-w-lg lg:mb-0 lg:max-w-none" data-reveal>
+        <div class="w-[78%] rotate-[-2deg] overflow-hidden rounded-2xl shadow-(--shadow-lift)">
+          <picture>
+            <source
+              type="image/webp"
+              srcset="/img/crew-768.webp 768w, /img/crew-1280.webp 1280w"
+              sizes="(min-width: 1024px) 36vw, 72vw"
+            />
+            <img
+              src="/img/crew.jpg"
+              width="1280"
+              height="996"
+              alt="Roofer's hands nailing an architectural shingle at golden hour"
+              loading="lazy"
+              decoding="async"
+              class="h-auto w-full object-cover"
+            />
+          </picture>
+        </div>
+        <div
+          class="absolute -bottom-8 right-0 w-[56%] rotate-[1.5deg] overflow-hidden rounded-2xl border-4 border-paper-deep shadow-(--shadow-lift)"
+        >
+          <picture>
+            <source
+              type="image/webp"
+              srcset="/img/inspection-768.webp 768w, /img/inspection-1280.webp 1280w"
+              sizes="(min-width: 1024px) 26vw, 52vw"
+            />
+            <img
+              src="/img/inspection.jpg"
+              width="1280"
+              height="996"
+              alt="Roof inspector taking notes on a tablet in front of a brick home"
+              loading="lazy"
+              decoding="async"
+              class="h-auto w-full object-cover"
+            />
+          </picture>
+        </div>
+      </div>
+
+      <!-- Value cards -->
+      <div>
+        <div class="grid gap-5 sm:grid-cols-2" data-reveal-group>
+          {
+            values.map((v) => (
+              <div class="card p-6 transition-[translate,box-shadow] duration-300 ease-(--ease-spring) hover:-translate-y-1 hover:shadow-(--shadow-lift)" data-reveal>
+                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-brand/10 text-brand">
+                  {v.icon === "badge" && (
+                    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="9" r="6" />
+                      <path d="m8.5 14 -1.5 7 5-2.8 5 2.8-1.5-7" />
+                    </svg>
+                  )}
+                  {v.icon === "document" && (
+                    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <path d="M14 2v6h6" />
+                      <path d="M9 13h6M9 17h4" />
+                    </svg>
+                  )}
+                  {v.icon === "home" && (
+                    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="m3 11 9-8 9 8" />
+                      <path d="M5 10v10h14V10" />
+                      <path d="M9 20v-6h6v6" />
+                    </svg>
+                  )}
+                  {v.icon === "math" && (
+                    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <rect x="4" y="3" width="16" height="18" rx="2" />
+                      <path d="M8 7h8M8 12h3M13 12h3M8 16h3M13 16h3" />
+                    </svg>
+                  )}
+                </span>
+                <h3 class="mt-4 font-bold text-ink">{v.title}</h3>
+                <p class="mt-1.5 text-sm text-ink-soft">{v.body}</p>
+              </div>
+            ))
+          }
+        </div>
+        <p class="mt-6 text-sm text-ink-soft" data-reveal>{SITE.licenseLine}</p>
+      </div>
+    </div>
+  </div>
+</section>

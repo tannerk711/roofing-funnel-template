@@ -1,0 +1,162 @@
+@import "tailwindcss";
+@import "@fontsource-variable/archivo/wdth.css";
+
+/* Brand color is injected by Layout.astro from src/config/site.ts as
+   --brand-primary / --brand-dark on <html>. Keep them out of @theme values so
+   the ONE config file stays the single source of truth. */
+@theme inline {
+  --color-brand: var(--brand-primary, #c2410c);
+  --color-brand-dark: var(--brand-dark, #93330a);
+}
+
+@theme {
+  --color-ink: #1c1917;
+  --color-ink-soft: #57534e;
+  --color-paper: #faf7f2;
+  --color-paper-deep: #f2ece1;
+  --color-line: #e7e0d4;
+  /* Tech accent used only in the satellite/scan moments. */
+  --color-scan: #2dd4bf;
+  --color-sky-deep: #102033;
+
+  --font-display: "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-card: 0 1px 2px rgb(28 25 23 / 0.05), 0 6px 16px rgb(28 25 23 / 0.08);
+  --shadow-lift:
+    0 1px 2px rgb(28 25 23 / 0.06), 0 8px 24px rgb(28 25 23 / 0.1),
+    0 28px 56px -16px rgb(28 25 23 / 0.2);
+  --shadow-glow-scan: 0 0 18px rgb(45 212 191 / 0.55);
+
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    /* clip (not hidden) so GSAP from-states and pinned sections cannot create
+       a horizontal scrollbar */
+    overflow-x: clip;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--color-brand) 24%, transparent);
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+}
+
+@layer components {
+  /* Small uppercase section label */
+  .kicker {
+    @apply text-xs font-bold uppercase text-brand;
+    letter-spacing: 0.18em;
+  }
+
+  /* Display headline: wide, heavy, tight */
+  .headline {
+    font-stretch: 118%;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-brand px-7 py-3.5 font-bold text-white;
+    box-shadow:
+      0 1px 2px rgb(28 25 23 / 0.2),
+      0 8px 20px -6px color-mix(in srgb, var(--color-brand) 55%, transparent);
+    transition:
+      transform 0.25s var(--ease-spring),
+      box-shadow 0.25s var(--ease-spring),
+      background-color 0.2s ease;
+  }
+  .btn-primary:hover {
+    @apply bg-brand-dark;
+    transform: translateY(-2px);
+    box-shadow:
+      0 2px 4px rgb(28 25 23 / 0.18),
+      0 14px 30px -6px color-mix(in srgb, var(--color-brand) 60%, transparent);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-line bg-white px-7 py-3.5 font-bold text-ink;
+    box-shadow: var(--shadow-card);
+    transition:
+      transform 0.25s var(--ease-spring),
+      box-shadow 0.25s var(--ease-spring);
+  }
+  .btn-ghost:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .card {
+    @apply rounded-2xl border border-line bg-white;
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-lift {
+    @apply rounded-2xl border border-line bg-white;
+    box-shadow: var(--shadow-lift);
+  }
+
+  /* Fixed film-grain overlay, mounted once in Layout */
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Shimmer skeleton for loading waits */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-paper-deep);
+  }
+  .shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(255 255 255 / 0.65),
+      transparent
+    );
+    animation: shimmer-sweep 1.4s infinite;
+  }
+}
+
+@keyframes shimmer-sweep {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Reduced motion backstop: finish every CSS animation/transition instantly.
+   JS-driven motion (GSAP, rAF) additionally checks prefersReducedMotion(). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

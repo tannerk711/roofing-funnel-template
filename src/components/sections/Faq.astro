@@ -1,0 +1,87 @@
+---
+const faqs = [
+  {
+    q: "How accurate is the instant estimate?",
+    a: "It is a planning range measured from satellite imagery of your actual roof, priced with our current install rates. Most homes land inside the range, and a free 20 minute inspection turns it into an exact quote.",
+  },
+  {
+    q: "Do you share my information?",
+    a: "No. Your details go to our local team only, and we use them to prepare your estimate and follow up about your roof. We never sell or share your information with anyone else.",
+  },
+  {
+    q: "How does the insurance claim process work?",
+    a: "We inspect and photograph the damage first, then give you a straight answer on whether a claim is worth filing. If it is, we meet your adjuster on site to make sure everything gets documented, and your insurer pays for the covered replacement minus your deductible.",
+  },
+  {
+    q: "How long does a replacement take?",
+    a: "Most homes take one to two days from tear-off through cleanup, weather permitting. Larger or steeper roofs can run a day longer, and we confirm the schedule with you before we start.",
+  },
+  {
+    q: "Do you offer financing?",
+    a: "Yes. We walk through the available financing options with you at the inspection so you can compare payments against paying outright.",
+  },
+  {
+    q: "What shingles do you install?",
+    a: "Architectural asphalt shingles as our standard tier and impact-resistant dimensional lines as our premium tier, which carry better hail ratings and longer warranties. We go over the specific product lines at your inspection.",
+  },
+];
+---
+
+<section class="faq bg-paper py-20 md:py-28">
+  <div class="mx-auto max-w-3xl px-4 sm:px-6">
+    <div class="text-center" data-reveal-group>
+      <p class="kicker" data-reveal>Common questions</p>
+      <h2 class="headline mt-3 text-3xl text-ink sm:text-4xl" data-reveal>
+        Asked before every roof we replace.
+      </h2>
+    </div>
+
+    <div class="mt-10 space-y-4" data-reveal-group>
+      {
+        faqs.map((item) => (
+          <details class="card overflow-hidden" data-reveal>
+            <summary class="flex cursor-pointer select-none items-center justify-between gap-4 px-5 py-4 font-bold text-ink sm:px-6 sm:py-5">
+              <span>{item.q}</span>
+              <span class="faq-icon flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+              </span>
+            </summary>
+            <div class="px-5 pb-5 text-ink-soft sm:px-6">{item.a}</div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Smooth open/close. interpolate-size animates block-size to auto in
+     supporting browsers; everywhere else the accordion still opens instantly. */
+  .faq {
+    interpolate-size: allow-keywords;
+  }
+  details::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size 0.38s var(--ease-spring),
+      content-visibility 0.38s allow-discrete;
+  }
+  details[open]::details-content {
+    block-size: auto;
+  }
+  summary {
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-icon svg {
+    transition: rotate 0.3s var(--ease-spring);
+  }
+  details[open] .faq-icon svg {
+    rotate: 45deg;
+  }
+</style>

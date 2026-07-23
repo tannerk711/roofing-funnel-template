@@ -1,0 +1,117 @@
+---
+const steps = [
+  {
+    number: "01",
+    title: "Tell us about the roof",
+    body: "Five taps. Reason, age, material, insurance, timeline. No forms with thirty fields, no phone call required.",
+  },
+  {
+    number: "02",
+    title: "We measure from satellite",
+    body: "Real overhead imagery of your actual roof. We trace the footprint, calculate the square footage, and factor in your pitch.",
+  },
+  {
+    number: "03",
+    title: "Get your range and lock it in",
+    body: "Two tier options with honest price ranges. Then a free 20 minute inspection pins down the exact number.",
+  },
+];
+---
+
+<section class="relative overflow-hidden bg-paper py-20 md:py-28" data-hiw>
+  <!-- Aerial texture parallax layer -->
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+    <picture>
+      <source type="image/webp" srcset="/img/aerial-texture-1600.webp 1280w" sizes="100vw" />
+      <img
+        src="/img/aerial-texture.jpg"
+        width="1280"
+        height="910"
+        alt=""
+        loading="lazy"
+        decoding="async"
+        class="absolute inset-x-0 -top-12 h-[calc(100%+6rem)] w-full object-cover opacity-[0.12]"
+        data-parallax-bg="36"
+      />
+    </picture>
+    <div class="absolute inset-0 bg-gradient-to-b from-paper via-transparent to-paper"></div>
+  </div>
+
+  <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
+    <div class="max-w-2xl" data-reveal-group>
+      <p class="kicker" data-reveal>How it works</p>
+      <h2 class="headline mt-3 text-3xl text-ink sm:text-4xl md:text-5xl" data-reveal>
+        From address to estimate in three steps.
+      </h2>
+    </div>
+
+    <!-- Progress line, desktop pinned mode only -->
+    <div class="mt-10 hidden h-1 overflow-hidden rounded-full bg-line lg:block" aria-hidden="true">
+      <div
+        class="h-full w-full rounded-full bg-brand"
+        data-hiw-progress
+        style="transform: scaleX(0); transform-origin: left;"
+      >
+      </div>
+    </div>
+
+    <ol class="mt-10 grid gap-6 lg:mt-8 lg:grid-cols-3" data-reveal-group>
+      <li class="hiw-step card p-6 md:p-8" data-hiw-step data-reveal>
+        <span class="headline block text-5xl text-brand/25">{steps[0]!.number}</span>
+        <h3 class="mt-4 text-xl font-bold text-ink">{steps[0]!.title}</h3>
+        <p class="mt-2 text-ink-soft">{steps[0]!.body}</p>
+      </li>
+
+      <!-- Step 2 echoes the scan aesthetic from the funnel -->
+      <li
+        class="hiw-step scan-card relative overflow-hidden rounded-2xl border border-sky-deep bg-sky-deep p-6 shadow-(--shadow-lift) md:p-8"
+        data-hiw-step
+        data-reveal
+      >
+        <div class="scan-grid absolute inset-0" aria-hidden="true"></div>
+        <div class="relative">
+          <span class="headline block text-5xl text-scan/40">{steps[1]!.number}</span>
+          <p class="mt-3 text-[11px] font-bold uppercase tracking-widest text-scan">
+            Satellite measurement
+          </p>
+          <h3 class="mt-2 text-xl font-bold text-white">{steps[1]!.title}</h3>
+          <p class="mt-2 text-white/70">{steps[1]!.body}</p>
+        </div>
+      </li>
+
+      <li class="hiw-step card p-6 md:p-8" data-hiw-step data-reveal>
+        <span class="headline block text-5xl text-brand/25">{steps[2]!.number}</span>
+        <h3 class="mt-4 text-xl font-bold text-ink">{steps[2]!.title}</h3>
+        <p class="mt-2 text-ink-soft">{steps[2]!.body}</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<style>
+  .scan-grid {
+    background-image:
+      linear-gradient(rgb(45 212 191 / 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(45 212 191 / 0.1) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* Step activation states only apply once home-motion has initialized the
+     desktop pinned mode (hiw-ready). No JS or reduced motion = plain cards. */
+  .hiw-step {
+    transition:
+      opacity 0.4s ease,
+      translate 0.4s var(--ease-spring),
+      box-shadow 0.4s ease;
+  }
+  @media (min-width: 1024px) {
+    [data-hiw].hiw-ready .hiw-step {
+      opacity: 0.45;
+    }
+    [data-hiw].hiw-ready .hiw-step.is-active {
+      opacity: 1;
+      translate: 0 -6px;
+      box-shadow: var(--shadow-lift);
+    }
+  }
+</style>

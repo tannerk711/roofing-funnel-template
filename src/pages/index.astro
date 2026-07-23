@@ -1,0 +1,30 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/site/Header.astro";
+import Footer from "../components/site/Footer.astro";
+import Hero from "../components/sections/Hero.astro";
+import QuoteToolSection from "../components/sections/QuoteToolSection.astro";
+import HowItWorks from "../components/sections/HowItWorks.astro";
+import StormInsurance from "../components/sections/StormInsurance.astro";
+import WhyUs from "../components/sections/WhyUs.astro";
+import Faq from "../components/sections/Faq.astro";
+import FinalCta from "../components/sections/FinalCta.astro";
+---
+
+<Layout preloadHero={true}>
+  <Header />
+  <main>
+    <Hero />
+    <QuoteToolSection />
+    <HowItWorks />
+    <StormInsurance />
+    <WhyUs />
+    <Faq />
+    <FinalCta />
+  </main>
+  <Footer />
+  <script>
+    import { initHomeMotion } from "../scripts/home-motion";
+    initHomeMotion();
+  </script>
+</Layout>

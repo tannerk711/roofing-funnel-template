@@ -1,0 +1,71 @@
+---
+import { SITE } from "../../config/site";
+---
+
+<header
+  id="site-header"
+  class="sticky top-0 z-50 border-b border-transparent bg-paper/80 backdrop-blur-md transition-colors duration-300"
+>
+  <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+    <a href="/" class="flex items-center gap-2.5" aria-label={`${SITE.businessName} home`}>
+      <svg
+        viewBox="0 0 24 24"
+        class="h-6 w-6 text-brand"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M2.5 12.5 12 4l9.5 8.5"></path>
+        <path d="M5.5 11.5V19h13v-7.5" opacity="0.55"></path>
+      </svg>
+      <span class="headline text-base text-ink sm:text-lg">{SITE.businessName}</span>
+    </a>
+
+    <div class="flex items-center gap-3 sm:gap-5">
+      <a
+        href={SITE.phoneHref}
+        class="flex items-center gap-2 text-sm font-bold text-ink transition-colors hover:text-brand sm:text-base"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          class="h-4 w-4 text-brand"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path
+            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"
+          ></path>
+        </svg>
+        <span>{SITE.phone}</span>
+      </a>
+      <a href="/#quote-tool" class="btn-primary hidden px-5 py-2.5 text-sm md:inline-flex">
+        Get my estimate
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  #site-header.is-scrolled {
+    border-bottom-color: var(--color-line);
+    box-shadow: 0 1px 2px rgb(28 25 23 / 0.04);
+  }
+</style>
+
+<script>
+  const header = document.getElementById("site-header");
+  if (header) {
+    const onScroll = (): void => {
+      header.classList.toggle("is-scrolled", window.scrollY > 8);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+</script>

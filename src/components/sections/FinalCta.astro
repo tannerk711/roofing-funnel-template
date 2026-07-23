@@ -1,0 +1,57 @@
+---
+import { SITE } from "../../config/site";
+---
+
+<section class="relative overflow-hidden bg-sky-deep">
+  <!-- Angled divider from the paper section above -->
+  <div class="absolute inset-x-0 top-0" aria-hidden="true">
+    <svg
+      viewBox="0 0 1440 64"
+      preserveAspectRatio="none"
+      class="block h-10 w-full fill-paper md:h-16"
+    >
+      <polygon points="0,0 1440,0 1440,6 0,64"></polygon>
+    </svg>
+  </div>
+
+  <!-- Brand edge glow, pulsed slowly by home-motion -->
+  <div class="cta-glow pointer-events-none absolute inset-0" data-cta-glow aria-hidden="true"></div>
+
+  <div class="relative mx-auto max-w-6xl px-4 py-28 text-center sm:px-6 md:py-36">
+    <div class="mx-auto max-w-2xl" data-reveal-group>
+      <h2 class="headline text-3xl text-white sm:text-4xl md:text-5xl" data-reveal>
+        Get your number. Then decide.
+      </h2>
+      <p class="mt-5 text-lg text-white/70" data-reveal>
+        Zero pressure. The estimate is yours to keep either way, whether you book an
+        inspection or not.
+      </p>
+      <div class="mt-9 flex flex-wrap items-center justify-center gap-4" data-reveal>
+        <a href="#quote-tool" class="btn-primary">Get my instant estimate</a>
+        <a
+          href={SITE.phoneHref}
+          class="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-7 py-3.5 font-bold text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+        >
+          Call {SITE.phone}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-glow {
+    opacity: 0.25;
+    background:
+      radial-gradient(
+        52% 72% at 10% 108%,
+        color-mix(in srgb, var(--color-brand) 55%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        46% 64% at 94% -6%,
+        color-mix(in srgb, var(--color-brand) 32%, transparent),
+        transparent 70%
+      );
+  }
+</style>

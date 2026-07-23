@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.vercel/
+.astro/
+.env
+.env.local
+public/img/_raw/
+qa/
