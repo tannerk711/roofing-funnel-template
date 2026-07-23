@@ -28,7 +28,7 @@ export default function ConfirmStep({ matched, lat, lng, onYes, onNo }: ConfirmS
   return (
     <div className="text-center">
       <p className="kicker">Satellite check</p>
-      <h3 className="headline mt-2 text-2xl text-ink sm:text-[28px]">
+      <h3 className="headline mt-2 leading-[1.3] text-2xl text-ink sm:text-[28px]">
         Just confirming. Is this your home?
       </h3>
       <p className="mt-1.5 text-sm text-ink-soft">{matched}</p>

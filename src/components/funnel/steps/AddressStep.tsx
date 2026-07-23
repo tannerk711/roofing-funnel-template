@@ -62,7 +62,7 @@ export default function AddressStep({ initial, onFound }: AddressStepProps) {
   return (
     <div>
       <p className="kicker">Your address</p>
-      <h3 className="headline mt-2 text-2xl text-ink sm:text-[28px]">Where's the house?</h3>
+      <h3 className="headline mt-2 leading-[1.3] text-2xl text-ink sm:text-[28px]">Where's the house?</h3>
       <p className="mt-2 text-ink-soft">
         We pull a satellite view of your roof and measure it. No ladder, no site visit.
       </p>

@@ -88,7 +88,7 @@ export default function AssistStep({ initial, onContinue }: AssistStepProps) {
   return (
     <div>
       <p className="kicker">Quick backup</p>
-      <h3 className="headline mt-2 text-2xl text-ink sm:text-[28px]">
+      <h3 className="headline mt-2 leading-[1.3] text-2xl text-ink sm:text-[28px]">
         Satellite data is thin for your street, so let's do it the simple way.
       </h3>
       <p className="mt-2 text-ink-soft">Two quick numbers and we can still get your range.</p>

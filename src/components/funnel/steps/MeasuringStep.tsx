@@ -104,7 +104,7 @@ export default function MeasuringStep({ lat, lng, onMeasured, onFailed }: Measur
   return (
     <div className="text-center">
       <p className="kicker">Satellite measurement</p>
-      <h3 className="headline mt-2 text-2xl text-ink sm:text-[28px]">Measuring your roof</h3>
+      <h3 className="headline mt-2 leading-[1.3] text-2xl text-ink sm:text-[28px]">Measuring your roof</h3>
       <div className="mt-6">
         <ScanOverlay
           imageUrl={getAerialImageUrl(lat, lng)}

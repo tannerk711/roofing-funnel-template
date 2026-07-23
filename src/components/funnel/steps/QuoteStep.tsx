@@ -107,7 +107,7 @@ export default function QuoteStep({ quiz, address, footprint, contact, pitch }: 
           {measured ? "Measured from satellite" : "Estimated from your home size"}
         </span>
       </div>
-      <h3 className="headline mt-3 text-2xl text-ink sm:text-[28px]">
+      <h3 className="headline mt-3 leading-[1.3] text-2xl text-ink sm:text-[28px]">
         Your roof replacement range
       </h3>
 

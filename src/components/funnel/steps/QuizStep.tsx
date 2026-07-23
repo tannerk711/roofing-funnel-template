@@ -56,7 +56,7 @@ export default function QuizStep({ question, index, value, onAnswer }: QuizStepP
   return (
     <div>
       <p className="kicker">Question {index + 1} of 5</p>
-      <h3 className="headline mt-2 text-2xl text-ink sm:text-[28px]">{question.question}</h3>
+      <h3 className="headline mt-2 leading-[1.3] text-2xl text-ink sm:text-[28px]">{question.question}</h3>
       <div className="mt-6 space-y-3" role="group" aria-label={question.question}>
         {question.options.map((opt) => {
           const isSelected = selected === opt.label;

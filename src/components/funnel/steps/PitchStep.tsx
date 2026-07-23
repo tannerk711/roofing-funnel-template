@@ -38,7 +38,7 @@ export default function PitchStep({ value, onSelect }: PitchStepProps) {
   return (
     <div>
       <p className="kicker">Last question</p>
-      <h3 className="headline mt-2 text-2xl text-ink sm:text-[28px]">
+      <h3 className="headline mt-2 leading-[1.3] text-2xl text-ink sm:text-[28px]">
         Last one. How steep is your roof?
       </h3>
       <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-3">

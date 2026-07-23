@@ -60,7 +60,7 @@ export default function LeadStep({ initial, onSubmit }: LeadStepProps) {
   return (
     <div>
       <p className="kicker">Almost there</p>
-      <h3 className="headline mt-2 text-2xl text-ink sm:text-[28px]">Your estimate is ready</h3>
+      <h3 className="headline mt-2 leading-[1.3] text-2xl text-ink sm:text-[28px]">Your estimate is ready</h3>
       <p className="mt-2 text-ink-soft">
         Tell us where to send it and it unlocks instantly. We'll also text you a copy.
       </p>
