@@ -62,12 +62,12 @@
     letter-spacing: 0.18em;
   }
 
-  /* Display headline: wide, heavy, tight */
+  /* Display headline: wide and heavy, with enough air to stay readable */
   .headline {
     font-stretch: 118%;
     font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.02;
+    letter-spacing: -0.008em;
+    line-height: 1.12;
   }
 
   .btn-primary {
