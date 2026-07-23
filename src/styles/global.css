@@ -62,12 +62,16 @@
     letter-spacing: 0.18em;
   }
 
-  /* Display headline: wide and heavy, with enough air to stay readable */
+  /* Display headline: wide and heavy, with enough air to stay readable.
+     Tailwind v4 text-* utilities set their own line-height and outrank this
+     layer, so the leading is supplied via --tw-leading, which those
+     utilities read first. */
   .headline {
     font-stretch: 118%;
     font-weight: 800;
     letter-spacing: -0.008em;
-    line-height: 1.12;
+    --tw-leading: 1.2;
+    line-height: 1.2;
   }
 
   .btn-primary {
