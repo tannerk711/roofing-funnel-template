@@ -66,3 +66,12 @@ hail/insurance angle. This is a TEMPLATE, like `clients/dscr-funnel-template/`.
   overpass-api.de returns an XHTML "server too busy" page with status 200.
   Treat JSON parse failure as a retryable error (fall through to the kumi
   mirror), not just 429/504.
+- **[2026-07-22] OSM services reject Node fetch without a User-Agent:**
+  Overpass answers 406, mirrors answer 429, when no identifying UA is sent
+  (curl works because curl sends its own). Both /api/footprint and the
+  Nominatim fallback send `RoofQuoteTool/1.0 (SITE.email)`.
+- **[2026-07-22] Port 4321 can be squatted by the OLD iteration:** stale
+  `astro dev` trees under `products/roofing-funnel-template/` grab the port
+  and QA silently runs against the wrong site. qa-walk.mjs asserts the
+  555-0187 marker; kill any node process whose command line contains
+  `products\roofing-funnel-template` before QAing.
