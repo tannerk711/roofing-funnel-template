@@ -12,9 +12,11 @@ hail/insurance angle. This is a TEMPLATE, like `clients/dscr-funnel-template/`.
 ## Rebrand checklist (new client)
 
 1. Edit `src/config/site.ts` only: businessName, legalName, phone/phoneHref,
-   email, calendarUrl (GHL booking), serviceArea*, licenseLine, brand.primary
-   + primaryDark, pricing (pricePerSquare, tier/pitch multipliers) if their
-   market differs, aerial provider/key if switching to Google imagery.
+   email, calendarUrl (GHL booking), serviceArea* (including
+   serviceAreaCenter lat/lng, which biases the address autocomplete),
+   licenseLine, brand.primary + primaryDark, pricing (pricePerSquare,
+   tier/pitch multipliers) if their market differs, aerial provider/key if
+   switching to Google imagery.
 2. Replace images: regenerate via fal into `public/img/_raw/` (hero, storm,
    aerial-texture, crew, inspection, blueprint), then `npm run images`.
 3. Set `LEAD_WEBHOOK_URL` in `.env` locally and in Vercel env (server-side
@@ -27,12 +29,18 @@ hail/insurance angle. This is a TEMPLATE, like `clients/dscr-funnel-template/`.
 
 ## Architecture
 
-- Astro 5, `output: "static"`, Vercel adapter. Three server routes with
-  `export const prerender = false`: `/api/geocode` (Census primary,
-  Nominatim fallback), `/api/footprint` (Overpass primary + kumi mirror,
-  Turf area, 400..20000 sqft accept window, returns the building polygon),
-  `/api/lead` (forwards to process.env.LEAD_WEBHOOK_URL; fires twice per
-  lead: stage "lead_captured" then "quote_viewed").
+- Astro 5, `output: "static"`, Vercel adapter. Four server routes with
+  `export const prerender = false`: `/api/suggest` (address typeahead, Esri
+  World Geocoder suggest primary + Photon fallback, biased by
+  `SITE.serviceAreaCenter`), `/api/geocode` (Census primary, Nominatim
+  fallback), `/api/footprint` (Overpass primary + kumi mirror, Turf area,
+  400..20000 sqft accept window, returns the building polygon), `/api/lead`
+  (forwards to process.env.LEAD_WEBHOOK_URL; fires twice per lead: stage
+  "lead_captured" then "quote_viewed").
+- Address autocomplete: AddressStep debounces /api/suggest into a combobox
+  dropdown; picking a suggestion auto-runs /api/geocode with the full label
+  (Photon-sourced house-number coords as fallback so a pick never dead-ends).
+  If /api/suggest is down the field degrades to plain typing.
 - React islands: `src/components/funnel/QuoteFunnel.tsx` (the wizard) +
   `src/components/motion/*` (ScanOverlay, TiltCard, MagneticButton, CountUp).
 - Landing sections are static Astro in `src/components/sections/`; page-level
@@ -70,6 +78,19 @@ hail/insurance angle. This is a TEMPLATE, like `clients/dscr-funnel-template/`.
   Overpass answers 406, mirrors answer 429, when no identifying UA is sent
   (curl works because curl sends its own). Both /api/footprint and the
   Nominatim fallback send `RoofQuoteTool/1.0 (SITE.email)`.
+- **[2026-07-28] Photon is not good enough for US house-number typeahead:**
+  "1198 Cumberland Rd NE" returned a Nevada street. Esri World Geocoder
+  `suggest` (geocode.arcgis.com, keyless, location-biased) nails partial US
+  addresses; Photon is fallback only.
+- **[2026-07-28] Dropdowns inside the wizard card get clipped:** the card
+  used overflow-hidden for the step slide animations, which cut the
+  autocomplete list at the card edge on mobile. Fix was overflow-x-clip
+  (horizontal clip only, vertical overflow visible), not repositioning the
+  dropdown.
+- **[2026-07-28] Touch taps on dropdown options need onPointerDown, not
+  onClick:** on touch the input's blur fires before the synthesized click,
+  unmounting the list first, so onClick never lands. onMouseDown
+  preventDefault only guards mouse. pointerdown fires before blur on both.
 - **[2026-07-22] Port 4321 can be squatted by the OLD iteration:** stale
   `astro dev` trees under `products/roofing-funnel-template/` grab the port
   and QA silently runs against the wrong site. qa-walk.mjs asserts the

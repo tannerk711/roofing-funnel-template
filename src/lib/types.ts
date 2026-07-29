@@ -16,6 +16,20 @@ export interface Contact {
   email: string;
 }
 
+/** One typeahead result from GET /api/suggest?q=... */
+export interface AddressSuggestion {
+  label: string;
+  lat: number;
+  lng: number;
+  /** True when the match includes a house number (safe to use coords directly). */
+  precise: boolean;
+}
+
+/** GET /api/suggest?q=... */
+export type SuggestResponse =
+  | { ok: true; suggestions: AddressSuggestion[] }
+  | { ok: false; error: "invalid" | "upstream" };
+
 /** GET /api/geocode?address=... */
 export type GeocodeResponse =
   | { ok: true; lat: number; lng: number; matchedAddress: string }

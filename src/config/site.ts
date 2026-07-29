@@ -15,6 +15,9 @@ export const SITE = {
   calendarUrl: "https://api.leadconnectorhq.com/widget/booking/REPLACE_ME",
   serviceAreaShort: "Atlanta ITP and Marietta",
   serviceAreaCounties: ["Fulton", "Cobb", "Clayton", "DeKalb"],
+  // Rough center of the service area. Biases address autocomplete so nearby
+  // matches rank first; does not exclude addresses outside the area.
+  serviceAreaCenter: { lat: 33.789, lng: -84.388 },
   licenseLine: "Licensed and insured in Georgia. License #GA-000000 (placeholder).",
 
   brand: {

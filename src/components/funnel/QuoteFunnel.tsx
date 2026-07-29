@@ -187,7 +187,9 @@ export default function QuoteFunnel() {
     <div data-funnel className="mx-auto w-full max-w-2xl">
       <style>{FUNNEL_CSS}</style>
       <TiltCard maxDeg={4}>
-        <div className="card-lift relative overflow-hidden px-5 pb-8 pt-14 sm:px-10 sm:pb-10 md:min-h-[520px]">
+        {/* x-clip (not hidden) so step slide animations stay contained while
+            the address autocomplete dropdown can overflow the card bottom. */}
+        <div className="card-lift relative overflow-x-clip px-5 pb-8 pt-14 sm:px-10 sm:pb-10 md:min-h-[520px]">
           <div
             className="absolute inset-x-0 top-0 h-1 bg-line/50"
             role="progressbar"
