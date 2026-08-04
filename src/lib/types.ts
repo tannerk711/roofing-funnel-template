@@ -69,6 +69,10 @@ export interface LeadPayload {
     squares: number;
     pricePerSquare: number;
     tiers: { tier: TierKey; low: number; high: number }[];
+    // Flat pre-formatted ranges ("$7,200-$9,700") so the Zap/CRM maps a single
+    // clean field per tier instead of joining the tiers array.
+    standardRange: string;
+    premiumRange: string;
   };
   submittedAt: string;
   page: string;

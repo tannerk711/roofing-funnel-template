@@ -11,7 +11,14 @@ import type {
   QuizAnswers,
 } from "../../lib/types";
 import type { PitchKey, QuoteResult } from "../../lib/pricing";
+import { formatMoney } from "../../lib/pricing";
 import { SITE } from "../../config/site";
+
+// "$7,200-$9,700" style single-field range for the Zap/CRM.
+function tierRange(quote: QuoteResult, tier: string): string {
+  const t = quote.tiers.find((x) => x.tier === tier);
+  return t ? `${formatMoney(t.low)}-${formatMoney(t.high)}` : "";
+}
 
 declare global {
   interface Window {
@@ -89,6 +96,8 @@ export async function submitLead(input: SubmitLeadInput): Promise<LeadResponse |
               low: t.low,
               high: t.high,
             })),
+            standardRange: tierRange(input.quote, "standard"),
+            premiumRange: tierRange(input.quote, "premium"),
           },
         }
       : {}),
