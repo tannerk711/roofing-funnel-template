@@ -44,6 +44,29 @@ const ogImage = new URL("/img/hero.jpg", Astro.site ?? "https://apexroofingco.ex
         />
       )
     }
+    {
+      /* Google tag (Google Ads), rendered only when a tag ID is configured.
+         The conversion event fires from submitLead.ts on a successful lead
+         capture, never on page load. */
+      SITE.googleAds.tagId && (
+        <>
+          <script
+            is:inline
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${SITE.googleAds.tagId}`}
+          />
+          <script is:inline define:vars={{ tagId: SITE.googleAds.tagId }}>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              dataLayer.push(arguments);
+            }
+            window.gtag = gtag;
+            gtag("js", new Date());
+            gtag("config", tagId, { allow_enhanced_conversions: true });
+          </script>
+        </>
+      )
+    }
   </head>
   <body class="min-h-dvh bg-paper text-ink">
     <slot />

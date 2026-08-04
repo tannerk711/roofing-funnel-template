@@ -19,13 +19,27 @@ hail/insurance angle. This is a TEMPLATE, like `clients/dscr-funnel-template/`.
    switching to Google imagery.
 2. Replace images: regenerate via fal into `public/img/_raw/` (hero, storm,
    aerial-texture, crew, inspection, blueprint), then `npm run images`.
-3. Set `LEAD_WEBHOOK_URL` in `.env` locally and in Vercel env (server-side
-   only; see `env.example`).
+3. Set `LEAD_WEBHOOK_URL` in Vercel env (server-side only; see `env.example`).
+   Leaving local `.env` unset is fine and keeps dev submits out of the
+   client's Zap/CRM (/api/lead accepts but doesn't forward).
 3b. Set `site` in `astro.config.mjs` to the client's real domain (drives
    canonical/og absolute URLs).
+3c. Google Ads: fill `SITE.googleAds` (tagId + conversionLabel) and the tag
+   wires itself: base tag in Layout head, conversion fired from submitLead.ts
+   only on an accepted lead (never page load / raw click), suppressed on
+   localhost and `?qa=1`. In the Ads UI turn ON both "Enhanced conversions"
+   and "Enhanced conversions for leads". Leave both fields empty for
+   clients without Google Ads (no script loads at all).
+3d. No booking calendar? (Some clients schedule via a GHL workflow instead.)
+   Follow the Guards Construction pattern: quote CTA "Request my free
+   inspection" -> /thank-you rewritten to "we'll reach out shortly", strip
+   every "booked in 30 seconds" / "you're on the calendar" promise. Reference:
+   `clients/guards-construction/funnel/`.
 4. Sweep all section copy for the new market (county names, storm angle).
 5. Run the QA pass: `npm run build`, then `node tools/qa-walk.mjs` against
-   the dev server on 4321 (desktop + mobile + --reduced-motion).
+   the dev server on 4321 (desktop + mobile + --reduced-motion). Update the
+   site-identity phone marker in qa-walk.mjs to the client's number.
+   Scrolled section shots: `node tools/shot-section.mjs <url> <marker> <out>`.
 
 ## Architecture
 

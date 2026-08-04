@@ -179,7 +179,9 @@ async function overflowCheck(label) {
 }
 
 try {
-  await page.goto(BASE + "/", { waitUntil: "networkidle2", timeout: 45000 });
+  // ?qa=1 suppresses the Google Ads conversion fire in submitLead.ts so QA
+  // walks never pollute real conversion counts.
+  await page.goto(BASE + "/?qa=1", { waitUntil: "networkidle2", timeout: 45000 });
   await sleep(1200);
   // Identity check: another project's dev server has squatted 4321 before.
   const isOurs = await page.evaluate(() =>

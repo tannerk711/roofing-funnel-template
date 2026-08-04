@@ -11,6 +11,33 @@ import type {
   QuizAnswers,
 } from "../../lib/types";
 import type { PitchKey, QuoteResult } from "../../lib/pricing";
+import { SITE } from "../../config/site";
+
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
+// Google Ads conversion. Fired once, only after /api/lead accepts the
+// lead_captured stage, and only when SITE.googleAds is configured. Suppressed
+// for local dev and QA walks (?qa=1) so automated runs never pollute
+// conversion counts.
+function fireAdsConversion(contact: Contact): void {
+  const { tagId, conversionLabel } = SITE.googleAds;
+  if (!tagId || !conversionLabel) return;
+  if (typeof window === "undefined" || typeof window.gtag !== "function") return;
+  const { hostname, search } = window.location;
+  if (hostname === "localhost" || hostname === "127.0.0.1") return;
+  if (new URLSearchParams(search).has("qa")) return;
+  window.gtag("set", "user_data", {
+    email: contact.email,
+    phone_number: contact.phone,
+  });
+  window.gtag("event", "conversion", {
+    send_to: `${tagId}/${conversionLabel}`,
+  });
+}
 
 export interface SubmitLeadInput {
   stage: LeadPayload["stage"];
@@ -76,7 +103,11 @@ export async function submitLead(input: SubmitLeadInput): Promise<LeadResponse |
       body: JSON.stringify(payload),
       keepalive: true,
     });
-    return (await res.json()) as LeadResponse;
+    const data = (await res.json()) as LeadResponse;
+    if (input.stage === "lead_captured" && data.ok) {
+      fireAdsConversion(input.contact);
+    }
+    return data;
   } catch (err) {
     console.warn("[funnel] lead submit failed", err);
     return null;

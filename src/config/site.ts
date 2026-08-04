@@ -20,6 +20,15 @@ export const SITE = {
   serviceAreaCenter: { lat: 33.789, lng: -84.388 },
   licenseLine: "Licensed and insured in Georgia. License #GA-000000 (placeholder).",
 
+  // Google Ads conversion tracking. Leave both empty to disable entirely (no
+  // gtag script loads). When set, the base tag renders in Layout.astro and the
+  // conversion fires from submitLead.ts ONLY on a successful lead capture,
+  // never on page load or raw button click. Suppressed on localhost and ?qa=1.
+  googleAds: {
+    tagId: "",
+    conversionLabel: "",
+  },
+
   brand: {
     // Primary brand color. Flows into Tailwind as bg-brand / text-brand etc.
     primary: "#C2410C",
