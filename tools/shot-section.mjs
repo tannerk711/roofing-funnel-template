@@ -4,7 +4,7 @@ import { createRequire } from "node:module";
 import { existsSync } from "node:fs";
 
 const sharedRequire = createRequire(
-  "C:/Users/tanne/Downloads/Claude Code Master Projects/foundation/tools/anchor.js",
+  "C:/Users/tanne/Downloads/Claude Code Master Projects/tools/anchor.js",
 );
 const puppeteer = sharedRequire("puppeteer-core");
 

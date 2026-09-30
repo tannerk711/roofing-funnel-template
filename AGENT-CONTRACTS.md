@@ -7,7 +7,7 @@ wrong, still follow it, and flag the concern in your final report.
 
 ## 0. Project facts
 
-- Directory: `c:/Users/tanne/Downloads/Claude Code Master Projects/clients/roofing-funnel-template`
+- Directory: `c:/Users/tanne/Downloads/Claude Code Master Projects/templates/funnels/roofing-instant-quote`
 - Stack: Astro 5 (`output: "static"`, Vercel adapter), React 19 islands, Tailwind v4 (via `@tailwindcss/vite`), GSAP (lazy-loaded only), Turf (server routes only).
 - Placeholder client: "Apex Roofing Co.", metro Atlanta inside the I-285 loop plus Marietta. Everything client-specific comes from `src/config/site.ts` (the `SITE` object). NEVER hardcode the business name, phone, email, calendar URL, prices, or multipliers; always import `SITE`.
 - Node modules are installed. Do NOT run `npm install`, `npm run build`, or the dev server. Write code only.

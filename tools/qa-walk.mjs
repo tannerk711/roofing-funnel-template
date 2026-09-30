@@ -8,10 +8,10 @@ import { existsSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-// puppeteer-core lives in the shared foundation/tools install (workspace
+// puppeteer-core lives in the shared tools install (workspace
 // convention: install once, reuse everywhere).
 const sharedRequire = createRequire(
-  "C:/Users/tanne/Downloads/Claude Code Master Projects/foundation/tools/anchor.js",
+  "C:/Users/tanne/Downloads/Claude Code Master Projects/tools/anchor.js",
 );
 const puppeteer = sharedRequire("puppeteer-core");
 

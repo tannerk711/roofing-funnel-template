@@ -7,7 +7,7 @@ building footprint -> lead capture (BEFORE any price) -> pitch -> two-tier
 ranged quote -> book inspection.
 
 Placeholder client: "Apex Roofing Co.", metro Atlanta ITP + Marietta,
-hail/insurance angle. This is a TEMPLATE, like `clients/dscr-funnel-template/`.
+hail/insurance angle. This is a TEMPLATE, like `templates/funnels/dscr-1-private-credit/`.
 
 ## Rebrand checklist (new client)
 
@@ -105,8 +105,5 @@ hail/insurance angle. This is a TEMPLATE, like `clients/dscr-funnel-template/`.
   onClick:** on touch the input's blur fires before the synthesized click,
   unmounting the list first, so onClick never lands. onMouseDown
   preventDefault only guards mouse. pointerdown fires before blur on both.
-- **[2026-07-22] Port 4321 can be squatted by the OLD iteration:** stale
-  `astro dev` trees under `products/roofing-funnel-template/` grab the port
-  and QA silently runs against the wrong site. qa-walk.mjs asserts the
-  555-0187 marker; kill any node process whose command line contains
-  `products\roofing-funnel-template` before QAing.
+- **[2026-07-22] Port 4321 can be squatted by the OLD iteration:** the products/ copy was deleted 2026-09-29; the template is the only copy. qa-walk.mjs asserts the
+  555-0187 marker.
