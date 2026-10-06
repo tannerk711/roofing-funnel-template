@@ -79,7 +79,12 @@ export const POST: APIRoute = async ({ request }) => {
   // Vercel runtime env, NOT import.meta.env (build-time only).
   const webhookUrl = process.env.LEAD_WEBHOOK_URL;
   if (!webhookUrl) {
-    console.log("[lead] LEAD_WEBHOOK_URL not set; payload:", JSON.stringify(data));
+    if (import.meta.env.PROD) {
+      // never a thank-you with the lead sitting only in the logs
+      console.error("[lead] LEAD_WEBHOOK_URL not set in production", who());
+      return json({ ok: false }, 502);
+    }
+    console.log("[lead] LEAD_WEBHOOK_URL not set (dev); payload:", JSON.stringify(data));
     return json({ ok: true, forwarded: false }, 200);
   }
 
