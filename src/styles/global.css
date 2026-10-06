@@ -164,3 +164,13 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Honeypot trap, off-canvas (not display:none, which some bots skip). */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}

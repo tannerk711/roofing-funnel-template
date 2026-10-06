@@ -74,6 +74,9 @@ export interface LeadPayload {
     standardRange: string;
     premiumRange: string;
   };
+  /** Honeypot trap value (empty for humans) and seconds from first interaction. */
+  ff_hp?: string;
+  secondsToComplete?: number | null;
   submittedAt: string;
   page: string;
 }

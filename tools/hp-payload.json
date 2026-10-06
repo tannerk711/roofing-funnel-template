@@ -1,0 +1,27 @@
+{
+  "stage": "lead_captured",
+  "quiz": {
+    "reason": "storm",
+    "roofAge": "10-15",
+    "material": "shingle",
+    "insurance": "no",
+    "timeline": "now"
+  },
+  "address": {
+    "entered": "1 Test St",
+    "matched": "1 Test St, Houston, TX",
+    "lat": 29.7,
+    "lng": -95.3
+  },
+  "footprint": {
+    "sqft": 2000,
+    "source": "measured"
+  },
+  "contact": {
+    "name": "HP Test",
+    "phone": "8325550123",
+    "email": "hp@example.com"
+  },
+  "submittedAt": "2026-10-06T00:00:00.000Z",
+  "page": "/"
+}

@@ -8,7 +8,7 @@ import TiltCard from "../motion/TiltCard";
 import { QUIZ_QUESTIONS } from "./quiz-data";
 import { PROGRESS_INDEX, PROGRESS_TOTAL, useFunnel } from "./useFunnel";
 import type { StepId } from "./useFunnel";
-import { submitLead } from "./submitLead";
+import { markInteraction, submitLead } from "./submitLead";
 import type { Contact } from "../../lib/types";
 import QuizStep from "./steps/QuizStep";
 import AddressStep from "./steps/AddressStep";
@@ -78,24 +78,22 @@ export default function QuoteFunnel() {
     stepRef.current?.focus({ preventScroll: true });
   }, [display.step]);
 
-  async function handleLeadSubmit(contact: Contact): Promise<void> {
+  // Resolves true once the lead was accepted; false keeps the lead step on
+  // screen with a retry message (the entered data stays in the form).
+  async function handleLeadSubmit(contact: Contact): Promise<boolean> {
     const { address, footprint } = state;
     if (address && footprint) {
-      // Fire stage "lead_captured". keepalive on the fetch means it survives
-      // the step change; the race keeps the pending state brief either way.
-      const post = submitLead({
+      const res = await submitLead({
         stage: "lead_captured",
         quiz: state.quiz,
         address,
         footprint,
         contact,
       });
-      await Promise.race([
-        post,
-        new Promise<void>((resolve) => window.setTimeout(resolve, 800)),
-      ]);
+      if (!res || !res.ok) return false;
     }
     actions.contactSubmit(contact);
+    return true;
   }
 
   function renderStep(step: StepId) {
@@ -184,7 +182,27 @@ export default function QuoteFunnel() {
       : "qf-enter" + (display.dir === -1 ? " qf-enter-back" : ""));
 
   return (
-    <div data-funnel className="mx-auto w-full max-w-2xl">
+    <div
+      data-funnel
+      className="mx-auto w-full max-w-2xl"
+      onPointerDownCapture={markInteraction}
+      onKeyDownCapture={markInteraction}
+      onFocusCapture={markInteraction}
+    >
+      {/* Honeypot trap: always mounted so its value survives step changes. */}
+      <input
+        type="text"
+        name="ff_hp"
+        id="ff-hp"
+        className="hp-field"
+        defaultValue=""
+        autoComplete="off"
+        tabIndex={-1}
+        aria-hidden="true"
+        data-lpignore="true"
+        data-1p-ignore
+        data-form-type="other"
+      />
       <style>{FUNNEL_CSS}</style>
       <TiltCard maxDeg={4}>
         {/* x-clip (not hidden) so step slide animations stay contained while

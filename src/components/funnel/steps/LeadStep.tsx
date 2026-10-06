@@ -1,6 +1,6 @@
 // Lead capture. Always BEFORE any price is shown, never after. Validates
-// inline, fires stage "lead_captured" through the parent, and proceeds even
-// if the POST fails (the parent logs it).
+// inline, fires stage "lead_captured" through the parent, and stays on this step
+// with a retry message (data kept) if the lead was not accepted.
 
 import { useState } from "react";
 import type { FormEvent } from "react";
@@ -8,7 +8,7 @@ import type { Contact } from "../../../lib/types";
 
 interface LeadStepProps {
   initial: Contact | null;
-  onSubmit: (contact: Contact) => Promise<void>;
+  onSubmit: (contact: Contact) => Promise<boolean>;
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,6 +32,7 @@ export default function LeadStep({ initial, onSubmit }: LeadStepProps) {
   const [email, setEmail] = useState(initial?.email ?? "");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [pending, setPending] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   function clearError(field: keyof FieldErrors) {
     setErrors((prev) => (prev[field] ? { ...prev, [field]: undefined } : prev));
@@ -50,7 +51,18 @@ export default function LeadStep({ initial, onSubmit }: LeadStepProps) {
     setErrors(next);
     if (next.name || next.phone || next.email || !normalizedPhone) return;
     setPending(true);
-    void onSubmit({ name: trimmedName, phone: normalizedPhone, email: trimmedEmail });
+    setFailed(false);
+    onSubmit({ name: trimmedName, phone: normalizedPhone, email: trimmedEmail })
+      .then((ok) => {
+        if (!ok) {
+          setFailed(true);
+          setPending(false);
+        }
+      })
+      .catch(() => {
+        setFailed(true);
+        setPending(false);
+      });
   }
 
   const inputCls = (hasError: boolean) =>
@@ -159,6 +171,12 @@ export default function LeadStep({ initial, onSubmit }: LeadStepProps) {
           <span>No spam. Your info goes to our local team only.</span>
         </div>
 
+        {failed && (
+          <p role="alert" className="text-sm font-medium text-[#B42318]">
+            Something went wrong, tap to try again.
+          </p>
+        )}
+
         <button
           type="submit"
           data-qa="next"
@@ -182,7 +200,7 @@ export default function LeadStep({ initial, onSubmit }: LeadStepProps) {
               Unlocking
             </>
           ) : (
-            "Unlock my estimate"
+            failed ? "Try again" : "Unlock my estimate"
           )}
         </button>
       </form>

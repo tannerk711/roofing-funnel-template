@@ -46,6 +46,13 @@ function fireAdsConversion(contact: Contact): void {
   });
 }
 
+// Seconds from the first interaction with the funnel to submit; the server
+// uses it to tell a bot (trap filled, done in seconds) from a form filler.
+let firstInteractionAt: number | null = null;
+export function markInteraction(): void {
+  if (firstInteractionAt === null) firstInteractionAt = Date.now();
+}
+
 export interface SubmitLeadInput {
   stage: LeadPayload["stage"];
   quiz: Partial<QuizAnswers>;
@@ -101,6 +108,12 @@ export async function submitLead(input: SubmitLeadInput): Promise<LeadResponse |
           },
         }
       : {}),
+    ff_hp:
+      typeof document !== "undefined"
+        ? ((document.getElementById("ff-hp") as HTMLInputElement | null)?.value ?? "")
+        : "",
+    secondsToComplete:
+      firstInteractionAt === null ? null : Math.round((Date.now() - firstInteractionAt) / 1000),
     submittedAt: new Date().toISOString(),
     page: typeof location !== "undefined" ? location.pathname : "/",
   };
