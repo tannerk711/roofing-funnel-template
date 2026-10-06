@@ -21,7 +21,11 @@ hail/insurance angle. This is a TEMPLATE, like `templates/funnels/dscr-1-private
    aerial-texture, crew, inspection, blueprint), then `npm run images`.
 3. Set `LEAD_WEBHOOK_URL` in Vercel env (server-side only; see `env.example`).
    Leaving local `.env` unset is fine and keeps dev submits out of the
-   client's Zap/CRM (/api/lead accepts but doesn't forward).
+   client's Zap/CRM (in dev /api/lead accepts and logs the payload; in
+   production an unset URL answers 502 so the form shows its retry state).
+   Honeypot contract (`.claude/rules/sites.md` item 6): trap `ff_hp`, filled
+   trap drops only a sub-20-second submit, one `[lead]` log line per outcome;
+   test with `node tools/hp-test.mjs` from the workspace root.
 3b. Set `site` in `astro.config.mjs` to the client's real domain (drives
    canonical/og absolute URLs).
 3c. Google Ads: fill `SITE.googleAds` (tagId + conversionLabel) and the tag
@@ -34,7 +38,7 @@ hail/insurance angle. This is a TEMPLATE, like `templates/funnels/dscr-1-private
    Follow the Guards Construction pattern: quote CTA "Request my free
    inspection" -> /thank-you rewritten to "we'll reach out shortly", strip
    every "booked in 30 seconds" / "you're on the calendar" promise. Reference:
-   `clients/guards-construction/funnel/`.
+   `clients/guards-construction/funnels/roofing-quote/`.
 4. Sweep all section copy for the new market (county names, storm angle).
 5. Run the QA pass: `npm run build`, then `node tools/qa-walk.mjs` against
    the dev server on 4321 (desktop + mobile + --reduced-motion). Update the
