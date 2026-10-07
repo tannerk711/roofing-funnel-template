@@ -6,9 +6,9 @@
 // LeadResponse from src/lib/types.ts.
 //
 // Honeypot: the hidden field `ff_hp` (nonsense name, password managers told to
-// ignore it). A filled trap drops the submit only when the form was "done" in
-// under 20 s (or with no timing at all); a slower submit forwards with
-// honeypotFilled: true. `website` is read too, for any older cached bundle.
+// ignore it). A filled trap is a LABEL, never a gate: the submit forwards with
+// honeypotFilled: true and one log line (Tanner, 2026-10-06: every complete
+// submit fires the Zap). `website` is read too, for any older cached bundle.
 
 import type { APIRoute } from "astro";
 import type { LeadPayload, LeadResponse } from "../../lib/types";
@@ -47,7 +47,10 @@ export const POST: APIRoute = async ({ request }) => {
   const contact = (data.contact ?? {}) as Partial<LeadPayload["contact"]>;
   const who = () => JSON.stringify({ name: contact.name, phone: contact.phone });
 
-  // Honeypot block: after parsing, before required-field validation.
+  // Honeypot is a LABEL, never a gate (Tanner, 2026-10-06: every complete
+  // submit fires the Zap and becomes a lead). A filled trap travels as
+  // honeypotFilled: true on the payload and gets one log line; nothing is
+  // dropped. The pre-rename trap key is still read for cached bundles.
   const trap = [data.ff_hp, data.website].find(
     (v) => typeof v === "string" && v.trim() !== "",
   );
@@ -56,11 +59,7 @@ export const POST: APIRoute = async ({ request }) => {
   const seconds = Number(data.secondsToComplete);
   data.honeypotFilled = trap !== undefined;
   if (trap !== undefined) {
-    if (!Number.isFinite(seconds) || seconds < 20) {
-      console.warn(`[lead] dropped: honeypot filled, form done in ${seconds}s`, who());
-      return json({ ok: true, forwarded: false }, 200);
-    }
-    console.warn(`[lead] honeypot filled after ${seconds}s, forwarding flagged`, who());
+    console.warn(`[lead] trap filled (${seconds}s), forwarding flagged`, who());
   }
 
   for (const field of ["name", "phone", "email"] as const) {
