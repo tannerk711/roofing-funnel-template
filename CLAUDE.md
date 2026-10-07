@@ -23,8 +23,8 @@ hail/insurance angle. This is a TEMPLATE, like `templates/funnels/dscr-1-private
    Leaving local `.env` unset is fine and keeps dev submits out of the
    client's Zap/CRM (in dev /api/lead accepts and logs the payload; in
    production an unset URL answers 502 so the form shows its retry state).
-   Honeypot contract (`.claude/rules/sites.md` item 6): trap `ff_hp`, filled
-   trap drops only a sub-20-second submit, one `[lead]` log line per outcome;
+   Honeypot contract (`.claude/rules/sites.md` item 6): trap `ff_hp` is a
+   label, never a gate (a filled trap forwards flagged), one `[lead]` log line per outcome;
    test with `node tools/hp-test.mjs` from the workspace root.
 3b. Set `site` in `astro.config.mjs` to the client's real domain (drives
    canonical/og absolute URLs).
